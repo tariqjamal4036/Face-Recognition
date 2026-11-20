@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Attendance log{% endblock %}
+{% block section %}Attendance log{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> DAILY RECORDS</p><h1>Attendance <span class="gradient-text">log</span></h1><p class="muted">Review student check-ins and export the selected date.</p></div><div class="page-heading-actions"><a class="button button-quiet" id="print-attendance" href="#"><i class="fa-solid fa-file-pdf"></i> Print / PDF</a><a class="button button-primary" id="export-attendance" href="#"><i class="fa-solid fa-file-arrow-down"></i> Export CSV</a></div></div>
+<article class="panel table-panel"><div class="table-toolbar"><label class="date-field"><i class="fa-regular fa-calendar"></i><input type="date" id="attendance-date"></label><span class="table-count-pill" id="attendance-count">0 check-ins</span></div><div class="table-scroll"><table><thead><tr><th>STUDENT</th><th>REGISTRATION NO.</th><th>ROOM</th><th>DEPARTMENT</th><th>CHECK-IN TIME</th><th>STATUS</th></tr></thead><tbody id="attendance-rows"><tr><td colspan="6" class="table-empty">Loading attendance…</td></tr></tbody></table></div><div class="table-caption"><span>One check-in per student per day</span><span>Exported data is a CSV spreadsheet</span></div></article>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/attendance.js') }}"></script>{% endblock %}

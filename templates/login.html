@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in · Hostel Vision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/refinements.css') }}">
+</head>
+<body class="login-page">
+  <main class="login-card panel">
+    <a class="brand login-brand" href="#"><span class="brand-mark"><i class="fa-solid fa-eye"></i></span><span><strong>HOSTEL</strong><small>VISION SYSTEM</small></span></a>
+    <p class="eyebrow"><span class="eyebrow-line"></span> SECURE WORKSPACE</p>
+    <h1>Welcome <span class="gradient-text">back</span></h1>
+    <p class="muted">Sign in to manage hostel student records.</p>
+    {% if error %}<div class="notice notice-warning">{{ error }}</div>{% endif %}
+    <form method="post" class="login-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label>Administrator username<input name="username" autocomplete="username" required value="admin"></label>
+      <label>Password<input name="password" type="password" autocomplete="current-password" required autofocus></label>
+      <button class="button button-primary">Sign in <i class="fa-solid fa-arrow-right"></i></button>
+    </form>
+    <small class="login-note"><i class="fa-solid fa-lock"></i> Local access · Configure ADMIN_PASSWORD to enable sign-in</small>
+  </main>
+</body>
+</html>

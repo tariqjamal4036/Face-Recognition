@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Live recognition{% endblock %}
+{% block section %}Live recognition{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> ATTENDANCE CAMERA</p><h1>Live <span class="gradient-text">recognition</span></h1><p class="muted">Recognized students are marked present once per day.</p></div><span class="pill"><span class="status-pulse"></span> CAMERA READY</span></div>
+<div class="recognition-layout">
+  <article class="panel camera-panel">
+    <div class="camera-frame" id="camera-frame"><video id="camera-video" autoplay muted playsinline></video><canvas id="camera-overlay"></canvas><div class="camera-placeholder" id="camera-placeholder"><span class="camera-orb"><i class="fa-solid fa-camera"></i></span><b>Camera is standing by</b><small>Start your webcam or upload an image to identify a student.</small></div><div class="camera-tag"><span class="status-pulse"></span> LIVE FEED</div></div>
+    <div class="camera-controls"><button class="button button-primary" id="start-camera"><i class="fa-solid fa-play"></i> Start camera</button><button class="button button-quiet" id="stop-camera" disabled><i class="fa-solid fa-stop"></i> Stop</button><label class="button button-quiet upload-button"><i class="fa-regular fa-image"></i> Upload photo<input id="recognition-upload" type="file" accept="image/*" hidden></label><span class="camera-hint"><i class="fa-solid fa-shield-halved"></i> Frames processed locally by this app</span></div>
+  </article>
+  <aside class="panel recognized-panel"><div class="panel-heading"><div><h2>Recognition result</h2><p class="muted">Student details appear here</p></div><span class="result-indicator" id="result-indicator"></span></div><div id="recognition-result" class="recognition-result empty-result"><span class="result-avatar"><i class="fa-solid fa-user"></i></span><b>Waiting for a face</b><small>Start the camera or upload a clear photo.</small></div><div class="recognition-foot"><i class="fa-solid fa-circle-info"></i> Unknown faces are saved as snapshots. Verify matches before acting on them.</div></aside>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/recognition.js') }}"></script>{% endblock %}

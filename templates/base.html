@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{% block title %}Hostel Vision{% endblock %} · Hostel Vision</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/refinements.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="{{ url_for('dashboard') }}">
+        <span class="brand-mark"><i class="fa-solid fa-eye"></i></span>
+        <span><strong>HOSTEL</strong><small>VISION SYSTEM</small></span>
+      </a>
+      <div class="nav-caption">WORKSPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="{{ 'active' if active == 'dashboard' else '' }}" href="{{ url_for('dashboard') }}"><i class="fa-solid fa-table-columns"></i> Dashboard</a>
+        <a class="{{ 'active' if active == 'recognition' else '' }}" href="{{ url_for('recognition_page') }}"><i class="fa-solid fa-camera"></i> Live recognition <span class="live-dot"></span></a>
+        <a class="{{ 'active' if active == 'students' else '' }}" href="{{ url_for('students_page') }}"><i class="fa-solid fa-users"></i> Students</a>
+        <a class="{{ 'active' if active == 'attendance' else '' }}" href="{{ url_for('attendance_page') }}"><i class="fa-regular fa-calendar-check"></i> Attendance log</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="system-card"><span class="status-pulse"></span><div><b>System online</b><small>Local recognition engine</small></div></div>
+        <div class="sidebar-user"><span class="avatar avatar-small"><i class="fa-solid fa-building-user"></i></span><div><b>Hostel Admin</b><small>Local workspace</small></div><form action="{{ url_for('logout') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="icon-button" aria-label="Sign out"><i class="fa-solid fa-arrow-right-from-bracket"></i></button></form></div>
+      </div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+        <div class="breadcrumb"><span>Workspace</span><i class="fa-solid fa-chevron-right"></i><strong>{% block section %}Dashboard{% endblock %}</strong></div>
+        <div class="topbar-actions">
+          <span class="today-label"><i class="fa-regular fa-calendar"></i> <span id="today-label"></span></span>
+          <button class="icon-button" id="theme-toggle" aria-label="Toggle light theme"><i class="fa-regular fa-sun"></i></button>
+          <a class="avatar" href="{{ url_for('students_page') }}" aria-label="Student directory"><i class="fa-solid fa-user"></i></a>
+        </div>
+      </header>
+      <section class="page-content">{% block content %}{% endblock %}</section>
+      <footer class="footer"><span>HOSTEL VISION <span class="footer-dot">•</span> Attendance, made clear.</span><span>Private local workspace</span></footer>
+    </main>
+  </div>
+  <div id="toast-region" class="toast-region" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

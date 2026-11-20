@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block section %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><p class="eyebrow"><span class="eyebrow-line"></span> OVERVIEW</p><h1>Good day, <span class="gradient-text">Hostel Admin</span></h1><p class="muted">Here’s your student and attendance overview for today.</p></div>
+  <a class="button button-primary" href="{{ url_for('recognition_page') }}"><i class="fa-solid fa-camera"></i> Start recognition</a>
+</div>
+<div id="quality-warning" class="notice notice-warning hidden"></div>
+<div class="stats-grid">
+  <article class="stat-card"><div class="stat-top"><span class="stat-icon cyan"><i class="fa-solid fa-users"></i></span><span class="stat-trend">ENROLLED</span></div><strong class="stat-number" data-counter="total_students">—</strong><span class="stat-label">Total students</span><span class="stat-glow cyan-glow"></span></article>
+  <article class="stat-card"><div class="stat-top"><span class="stat-icon green"><i class="fa-solid fa-user-check"></i></span><span class="stat-trend">TODAY</span></div><strong class="stat-number" data-counter="present_today">—</strong><span class="stat-label">Present today</span><span class="stat-glow green-glow"></span></article>
+  <article class="stat-card"><div class="stat-top"><span class="stat-icon violet"><i class="fa-solid fa-user-clock"></i></span><span class="stat-trend">TODAY</span></div><strong class="stat-number" data-counter="absent_today">—</strong><span class="stat-label">Not yet present</span><span class="stat-glow violet-glow"></span></article>
+  <article class="stat-card"><div class="stat-top"><span class="stat-icon orange"><i class="fa-solid fa-user-secret"></i></span><span class="stat-trend">ALERTS</span></div><strong class="stat-number" data-counter="unknown_today">—</strong><span class="stat-label">Unknown faces</span><span class="stat-glow orange-glow"></span></article>
+</div>
+<div class="dashboard-grid">
+  <article class="panel chart-panel"><div class="panel-heading"><div><h2>Attendance activity</h2><p class="muted">Recognitions over the last seven days</p></div><span class="pill"><span class="status-pulse"></span> LIVE DATA</span></div><div class="chart-wrap"><canvas id="attendance-chart" aria-label="Attendance activity chart"></canvas></div></article>
+  <article class="panel activity-panel"><div class="panel-heading"><div><h2>Recent activity</h2><p class="muted">Latest activity in this system</p></div><a class="text-link" href="{{ url_for('attendance_page') }}">View log <i class="fa-solid fa-arrow-right"></i></a></div><div id="activity-list" class="activity-list"><div class="loading-line"></div><div class="loading-line"></div><div class="loading-line"></div></div></article>
+</div>
+<div class="panel quick-panel"><div><span class="quick-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span><span><b>Keep your recognition data current</b><small>Refresh face encodings after importing new student photos.</small></span></div><button class="button button-quiet" data-retrain><i class="fa-solid fa-arrows-rotate"></i> Re-train / Refresh encodings</button></div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>{% endblock %}
