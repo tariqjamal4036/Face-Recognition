@@ -3,11 +3,13 @@
 #numpy>=1.26
 #Pillow>=10.0
 
-streamlit
+Flask>=3.0,<4.0
+gunicorn
 numpy
 Pillow
 opencv-python-headless
 dlib-bin
 face-recognition-models
 face_recognition @ git+https://github.com/thetoby9944/face_recognition
+
 
