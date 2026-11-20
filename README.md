@@ -84,12 +84,29 @@ under `static/uploads/`; remove them manually only after reviewing retention nee
 
 ## Data and privacy
 
-The development server binds to `127.0.0.1` and is not intended to be exposed to a
-network or the public internet. Face images, face embeddings, phone numbers, and
-attendance records are sensitive. Use only with appropriate consent and access
-controls, protect the project folder, and define a retention policy for snapshots.
-The app includes a session-based local administrator sign-in. It is not production
-security hardening and must not be exposed to a network.
+Face images, face embeddings, phone numbers, and attendance records are sensitive.
+Use only with appropriate consent and access controls, and define a retention
+policy for snapshots. The local development server binds to `127.0.0.1`.
+
+## Deploying to Vercel
+
+The Vercel project uses the Flask Python preset, Python 3.12, and a Neon Postgres
+database connected through the Vercel Marketplace. `DATABASE_URL` is supplied by
+the Neon integration. The first application start copies the checked-in SQLite
+records into Postgres, preserves their IDs and attendance history, imports any
+remaining legacy CSV entries, and moves photos and face encodings into persistent
+database storage. Keep the legacy data files available through this first start.
+
+Vercel SSO protection is enabled for the deployment, and the application also
+requires its administrator username and password. Set `ADMIN_USERNAME`,
+`ADMIN_PASSWORD`, and `FLASK_SECRET_KEY` in Vercel for both Production and Preview.
+Do not add a custom domain unless its requests are protected too. Uploaded photos,
+unknown-face snapshots, and generated face encodings are stored in Postgres rather
+than the function's temporary filesystem.
+
+Static assets are served from `public/assets/`. Run the app locally with SQLite as
+described above; set `DATABASE_URL` only when intentionally connecting to the
+Postgres deployment.
 
 ## Compatibility
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import io
 import os
 import tempfile
 from pathlib import Path
@@ -40,16 +41,40 @@ def encode_photo(image_path: Path) -> list[float]:
     return encodings[0].tolist()
 
 
+def encode_image_bytes(image_bytes: bytes, label: str = "uploaded photo") -> list[float]:
+    """Encode a persisted image without depending on a writable local filesystem."""
+    face_recognition = _face_recognition_module()
+    image = face_recognition.load_image_file(io.BytesIO(image_bytes))
+    boxes = face_recognition.face_locations(image, model=MODEL)
+    if len(boxes) != 1:
+        raise ValueError(f"{label}: expected one face, found {len(boxes)}.")
+    encodings = face_recognition.face_encodings(image, boxes)
+    if len(encodings) != 1:
+        raise ValueError(f"{label}: could not generate a face encoding.")
+    return encodings[0].tolist()
+
+
 def build_encodings(
-    students: list[dict[str, Any]], project_root: Path
+    students: list[dict[str, Any]],
+    project_root: Path,
+    photo_content: dict[str, bytes] | None = None,
 ) -> tuple[list[dict[str, Any]], list[str]]:
     """Create one encoding per student and retain failures as visible warnings."""
     encoded: list[dict[str, Any]] = []
     issues: list[str] = []
+    photo_content = photo_content or {}
     for student in students:
         photo = str(student.get("photo") or "")
         if not photo:
             issues.append(f"{student['name']}: no photo assigned")
+            continue
+        if photo in photo_content:
+            try:
+                encoding = encode_image_bytes(photo_content[photo], Path(photo).name)
+            except (OSError, RuntimeError, ValueError) as exc:
+                issues.append(str(exc))
+                continue
+            encoded.append({"student_id": student["id"], "encoding": encoding})
             continue
         if photo.startswith("Hostel Student/"):
             image_path = project_root / "Hostel Student" / photo.split("/", 1)[1]
